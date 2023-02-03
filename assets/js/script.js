@@ -124,8 +124,7 @@ const onImageClick = function (event, sliderRootElement, imagesSelector) {
 	});
 
 	// 6. zaznaczyć przy pomocy klasy [.js-slider__thumbs-image--current], który element jest aktualnie wyświetlany
-
-	for (let i = 0; i > jsSliderThumbsWrapper.children.length; i++) {
+	for (let i = 0; i < jsSliderThumbsWrapper.children.length; i++) {
 		const sliderImgWrapper = jsSliderThumbsWrapper.children[i];
 		const sliderImg = sliderImgWrapper.children[0];
 		const sliderImgSrc = sliderImg.getAttribute("src");
@@ -134,6 +133,7 @@ const onImageClick = function (event, sliderRootElement, imagesSelector) {
 		if (clickedImgSrc === sliderImgSrc) {
 			sliderImg.classList.add("js-slider__thumbs-image--current");
 		}
+		console.log(sliderImg);
 	}
 };
 
@@ -143,10 +143,31 @@ const onImageNext = function (event) {
 
 	// todo:
 	// 1. wyszukać aktualny wyświetlany element przy pomocy [.js-slider__thumbs-image--current]
+
+	const currentImg = document.querySelector(
+		".js-slider__thumbs-image--current"
+	);
+
 	// 2. znaleźć element następny do wyświetlenie względem drzewa DOM dla [.js-slider__thumbs]
+
+	const currentFigure = currentImg.parentElement;
+	const nextFigure = currentFigure.nextElementSibling;
+	const nextImg = nextFigure.children[0];
+
 	// 3. sprawdzić czy ten element istnieje - jeśli nie to [.nextElementSibling] zwróci [null]
+	if (!nextImg) {
+		return null;
+	}
 	// 4. przełączyć klasę [.js-slider__thumbs-image--current] do odpowiedniego elementu
+	else {
+		currentImg.classList.remove(".js-slider__thumbs-image--current");
+		nextImg.classList.add(".js-slider__thumbs-image--current");
+	}
 	// 5. podmienić atrybut o nazwie [src] dla [.js-slider__image]
+
+	const currentSliderImg = document.querySelector(".js-slider__image");
+	const currentSliderImgSrc = nextImg.getAttribute("src");
+	currentSliderImg.setAttribute("src", currentSliderImgSrc);
 };
 
 const onImagePrev = function (event) {
@@ -155,10 +176,31 @@ const onImagePrev = function (event) {
 
 	// todo:
 	// 1. wyszukać aktualny wyświetlany element przy pomocy [.js-slider__thumbs-image--current]
+	const currentImg = document.querySelector(
+		".js-slider__thumbs-image--current"
+	);
+
 	// 2. znaleźć element poprzedni do wyświetlenie względem drzewa DOM dla [.js-slider__thumbs]
+
+	const currentFigure = currentImg.parentElement;
+	const prevFigure = currentFigure.previousElementSibling;
+
 	// 3. sprawdzić czy ten element istnieje i czy nie posiada klasy [.js-slider__thumbs-item--prototype]
-	// 4. przełączyć klasę [.js-slider__thumbs-image--current] do odpowiedniego elementu
+
+	if (
+		prevFigure &&
+		!prevFigure.classList.contains("js-slider__thumbs-item--prototype")
+	) {
+		// 4. przełączyć klasę [.js-slider__thumbs-image--current] do odpowiedniego elementu
+		const prevImg = prevFigure.children[0];
+		currentImg.classList.remove(".js-slider__thumbs-image--current");
+		prevImg.classList.add(".js-slider__thumbs-image--current");
+	}
 	// 5. podmienić atrybut [src] dla [.js-slider__image]
+
+	const currentSliderImg = document.querySelector(".js-slider__image");
+	const currentSliderImgSrc = nextImg.getAttribute("src");
+	currentSliderImg.setAttribute("src", currentSliderImgSrc);
 };
 
 const onClose = function (event) {
