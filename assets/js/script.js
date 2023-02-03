@@ -87,6 +87,7 @@ const onImageClick = function (event, sliderRootElement, imagesSelector) {
 
 	// 2. wyszukać ściężkę (atrybut [src]) do klikniętego elementu i wstawić do [.js-slider__image]
 	const clickedImg = event.target;
+	console.log(clickedImg);
 	const clickedImgSrc = clickedImg.children[0].getAttribute(["src"]);
 	const sliderImg = sliderRootElement.querySelector(".js-slider__image");
 	sliderImg.setAttribute("src", clickedImgSrc);
@@ -97,16 +98,43 @@ const onImageClick = function (event, sliderRootElement, imagesSelector) {
 	// 4. wyszukać wszystkie zdjęcia należące do danej grupy, które wykorzystasz do osadzenia w dolnym pasku
 
 	const allImgs = document.querySelectorAll(imagesSelector);
-	console.log(allImgs);
-
-	const allGroupNameImgs = allImgs.filter(function (img) {
-		return img.dataset.sliderGroupName.clickedImgGroupName;
+	const allImgsArray = Array.from(allImgs);
+	const allGroupNameImgs = allImgsArray.filter(function (img) {
+		return img.dataset.sliderGroupName === clickedImgGroupName;
 	});
-
 	console.log(allGroupNameImgs);
 
 	// 5. utworzyć na podstawie elementu [.js-slider__thumbs-item--prototype] zawartość dla [.js-slider__thumbs]
+
+	const jsSliderThumbsWrapper = sliderRootElement.children[1];
+	const jsSliderThumb = sliderRootElement.children[1].children[0];
+	console.log(jsSliderThumbsWrapper);
+
+	allGroupNameImgs.forEach(function (item) {
+		const jsSliderThumbClone = jsSliderThumb.cloneNode(true);
+		jsSliderThumbClone.classList.remove("js-slider__thumbs-item--prototype");
+
+		const itemSrc = item.children[0].getAttribute(["src"]);
+		console.log(itemSrc);
+		jsSliderThumbClone.children[0].setAttribute("src", itemSrc);
+		console.log(jsSliderThumbClone);
+
+		jsSliderThumbsWrapper.appendChild(jsSliderThumbClone);
+		console.log(jsSliderThumbsWrapper);
+	});
+
 	// 6. zaznaczyć przy pomocy klasy [.js-slider__thumbs-image--current], który element jest aktualnie wyświetlany
+
+	for (let i = 0; i > jsSliderThumbsWrapper.children.length; i++) {
+		const sliderImgWrapper = jsSliderThumbsWrapper.children[i];
+		const sliderImg = sliderImgWrapper.children[0];
+		const sliderImgSrc = sliderImg.getAttribute("src");
+		console.log(sliderImgSrc);
+
+		if (clickedImgSrc === sliderImgSrc) {
+			sliderImg.classList.add("js-slider__thumbs-image--current");
+		}
+	}
 };
 
 const onImageNext = function (event) {
