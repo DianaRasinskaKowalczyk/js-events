@@ -31,16 +31,18 @@ const initEvents = function (imagesList, sliderRootElement) {
 	// utwórz nasłuchiwanie eventu o nazwie [click], który ma uruchomić event [js-slider-img-next]
 	// na elemencie [.js-slider__nav--next]
 	const navNext = sliderRootElement.querySelector(".js-slider__nav--next");
-	sliderRootElement.addEventListener("click", function (e) {
-		fireCustomEvent(navNext, "js-slider-img-next");
+	navNext.addEventListener("click", function (e) {
+		e.stopPropagation();
+		fireCustomEvent(e.currentTarget, "js-slider-img-next");
 	});
 
 	// todo:
 	// utwórz nasłuchiwanie eventu o nazwie [click], który ma uruchomić event [js-slider-img-prev]
 	// na elemencie [.js-slider__nav--prev]
 	const navPrev = sliderRootElement.querySelector(".js-slider__nav--prev");
-	sliderRootElement.addEventListener("click", function (e) {
-		fireCustomEvent(navPrev, "js-slider-img-prev");
+	navPrev.addEventListener("click", function (e) {
+		e.stopPropagation();
+		fireCustomEvent(e.currentTarget, "js-slider-img-prev");
 	});
 
 	// todo:
@@ -158,7 +160,7 @@ const onImageNext = function (event) {
 
 	// 3. sprawdzić czy ten element istnieje - jeśli nie to [.nextElementSibling] zwróci [null]
 	if (!nextFigure) {
-		nextFigure = null;
+		return null;
 	}
 	// 4. przełączyć klasę [.js-slider__thumbs-image--current] do odpowiedniego elementu
 	else {
@@ -169,7 +171,7 @@ const onImageNext = function (event) {
 
 	const currentSliderImg = this.querySelector(".js-slider__image");
 	const currentSliderImgSrc = nextImg.getAttribute("src");
-	currentSliderImg.setAttribute("src", currentSliderImgSrc);
+	currentSliderImg.src = currentSliderImgSrc;
 };
 
 const onImagePrev = function (event) {
@@ -202,7 +204,7 @@ const onImagePrev = function (event) {
 
 	const currentSliderImg = this.querySelector(".js-slider__image");
 	const prevSliderImgSrc = prevImg.getAttribute("src");
-	currentSliderImg.setAttribute("src", prevSliderImgSrc);
+	currentSliderImg.src = prevSliderImgSrc;
 };
 
 const onClose = function (event) {
