@@ -89,7 +89,7 @@ const onImageClick = function (event, sliderRootElement, imagesSelector) {
 
 	// 2. wyszukać ściężkę (atrybut [src]) do klikniętego elementu i wstawić do [.js-slider__image]
 	const clickedImg = event.target;
-	const clickedImgSrc = clickedImg.children[0].getAttribute(["src"]);
+	const clickedImgSrc = clickedImg.children[0].getAttribute("src");
 	const sliderImg = sliderRootElement.querySelector(".js-slider__image");
 	sliderImg.setAttribute("src", clickedImgSrc);
 
@@ -113,7 +113,7 @@ const onImageClick = function (event, sliderRootElement, imagesSelector) {
 		const jsSliderThumbClone = jsSliderThumb.cloneNode(true);
 		jsSliderThumbClone.classList.remove("js-slider__thumbs-item--prototype");
 
-		const itemSrc = item.children[0].getAttribute(["src"]);
+		const itemSrc = item.children[0].getAttribute("src");
 
 		jsSliderThumbClone.children[0].setAttribute("src", itemSrc);
 
@@ -151,10 +151,8 @@ const onImageNext = function (event) {
 		return null;
 	}
 	// 4. przełączyć klasę [.js-slider__thumbs-image--current] do odpowiedniego elementu
-	else {
-		currentImg.classList.remove("js-slider__thumbs-image--current");
-		nextImg.classList.add("js-slider__thumbs-image--current");
-	}
+	currentImg.classList.remove("js-slider__thumbs-image--current");
+	nextImg.classList.add("js-slider__thumbs-image--current");
 	// 5. podmienić atrybut o nazwie [src] dla [.js-slider__image]
 
 	const currentSliderImg = this.querySelector(".js-slider__image");
@@ -185,12 +183,12 @@ const onImagePrev = function (event) {
 
 		currentImg.classList.remove("js-slider__thumbs-image--current");
 		prevImg.classList.add("js-slider__thumbs-image--current");
+		const currentSliderImg = this.querySelector(".js-slider__image");
+		const prevSliderImgSrc = prevImg.getAttribute("src");
+		currentSliderImg.src = prevSliderImgSrc;
 	}
-	// 5. podmienić atrybut [src] dla [.js-slider__image]
 
-	const currentSliderImg = this.querySelector(".js-slider__image");
-	const prevSliderImgSrc = prevImg.getAttribute("src");
-	currentSliderImg.src = prevSliderImgSrc;
+	// 5. podmienić atrybut [src] dla [.js-slider__image]
 };
 
 const onClose = function (event) {
